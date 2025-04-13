@@ -8,7 +8,7 @@ public class StackToDeque {
     public static final Scanner scan = new Scanner(System.in);
     public static final int MIN_CHOICE = 0;
     public static final int MAX_STACK_CHOICE = 8;
-    public static final int MAX_DEQUE_CHOICE = 11;
+    public static final int MAX_DEQUE_CHOICE = 10;
     public static final int MIN_NUM = -100000;
     public static final int MAX_NUM = 100000;
     public enum Status
@@ -68,7 +68,7 @@ public class StackToDeque {
     public static void writeDequeOptions() {
         System.out.println("""
                 Выберите, что вы хотите сделать с очередью.
-                0 - Выход из программы;
+                0 - Вернуться к работе над стеком;
                 1 - Добавить значение в начало очереди (PushFront);
                 2 - Добавить значение в конец очереди (PushBack)
                 3 - Удалить значение из начала очереди (PopFront);
@@ -79,7 +79,6 @@ public class StackToDeque {
                 8 - Просмотреть все элементы очереди (Show);
                 9 - Сохранить все элементы очереди в файл (Save);
                 10 - Открыть элементы очереди из файла (Open);
-                11 - Перейти к работе над стеком;
                 """);
     }
 
@@ -162,7 +161,7 @@ public class StackToDeque {
         return stack;
     }
 
-    public static void workWithDeque(MyDeque mainDeque){
+    public static MyStack workWithDeque(MyDeque mainDeque){
         boolean dequeWorkNotDone = true;
         Status status;
         while(dequeWorkNotDone){
@@ -243,10 +242,6 @@ public class StackToDeque {
                     System.out.println("Стек был успешно сформирован.");
                     yield Status.GOOD;
                 }
-                case 11 -> {
-                    workWithStack(dequeToStack(mainDeque));
-                    yield Status.GOOD;
-                }
                 default -> {
                     dequeWorkNotDone = false;
                     yield Status.GOOD;
@@ -255,6 +250,7 @@ public class StackToDeque {
             System.err.println(ERR_TEXT[status.ordinal()]);
 
         }
+        return dequeToStack(mainDeque);
     }
 
     public static void workWithStack(MyStack mainStack){
@@ -319,7 +315,7 @@ public class StackToDeque {
                     yield Status.GOOD;
                 }
                 case 8 -> {
-                    workWithDeque(stackToDeque(mainStack));
+                    mainStack = workWithDeque(stackToDeque(mainStack));
                     yield Status.GOOD;
                 }
                 default -> {
@@ -336,7 +332,7 @@ public class StackToDeque {
 
     public static void main(String[] args) {
         writeTask();
-        System.setErr(System.out); //IntelliJ IDEA bad output fix)
+        System.setErr(System.out); //IntelliJ IDEA bad output fix
         workWithStack(null);
     }
 }
